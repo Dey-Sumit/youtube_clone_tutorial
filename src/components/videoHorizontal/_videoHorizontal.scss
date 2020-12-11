@@ -1,0 +1,99 @@
+@import "../../base.scss";
+
+.videoHorizontal {
+   margin: 0.5rem;
+   padding: 0.5rem 0;
+   align-items: center;
+   border-bottom: 0.3px solid $borderColor;
+
+   cursor: pointer;
+
+   &__left {
+      position: relative;
+      text-align: center;
+      // padding: 0 !important;
+   }
+
+   &__thumbnail {
+      //   &-wrapper {
+      //      width: 100%;
+      //   }
+      object-fit: contain;
+      width: 100%;
+
+      &-channel {
+         border-radius: 50%;
+         width: 50%;
+         margin: 0 auto;
+         display: block;
+      }
+   }
+
+   &__duration {
+      @include duration;
+   }
+
+   &__right {
+      padding: 0;
+   }
+
+   &__details {
+      font-size: 0.8rem;
+   }
+
+   &__title {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 1px;
+      color: #fff;
+      letter-spacing: 0.1px;
+
+      @include line-clamp(1);
+   }
+
+   &__channel {
+      display: flex;
+      margin: 0.5rem 0;
+      align-items: center;
+
+      img {
+         @include channel-icon;
+      }
+      p {
+         text-decoration: none;
+         margin-bottom: 1px;
+         @include line-clamp(1);
+      }
+   }
+   &__desc {
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+      @include line-clamp(2);
+   }
+}
+
+@media (max-width: $breakpoint-small) {
+   .videoHorizontal {
+      font-size: 12px;
+
+      &__details {
+         @include line-clamp(1);
+      }
+      &__channel {
+         margin: 0.1rem 0;
+
+         img {
+            display: none;
+         }
+      }
+
+      &__desc {
+         display: none;
+      }
+
+      &__title {
+         font-size: 14px;
+         @include line-clamp(2);
+      }
+   }
+}
