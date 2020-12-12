@@ -4,14 +4,13 @@
    margin: 0.5rem;
    padding: 0.5rem 0;
    align-items: center;
-   border-bottom: 0.3px solid $borderColor;
+   border-bottom: 0.3px solid $border-color;
 
    cursor: pointer;
 
    &__left {
       position: relative;
       text-align: center;
-      // padding: 0 !important;
    }
 
    &__thumbnail {

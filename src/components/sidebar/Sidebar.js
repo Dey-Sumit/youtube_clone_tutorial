@@ -13,46 +13,46 @@ import {
 
 const Sidebar = ({ sidebar, closeSidebar }) => {
    return (
-      <div
+      <nav
          className={sidebar ? "sidebar open" : "sidebar"}
          onClick={() => closeSidebar(false)}>
-         <nav>
+         <li>
             <MdHome size={23} />
             <span>Home</span>
-         </nav>
+         </li>
 
-         <nav>
+         <li>
             <MdSubscriptions size={23} />
             <span>Subscriptions</span>
-         </nav>
+         </li>
 
-         <nav>
+         <li>
             <MdThumbUp size={23} />
             <span>Home</span>
-         </nav>
+         </li>
 
-         <nav>
+         <li>
             <MdHistory size={23} />
             <span>History</span>
-         </nav>
-         <nav>
+         </li>
+         <li>
             <MdLibraryBooks size={23} />
             <span>Library</span>
-         </nav>
-         <nav>
+         </li>
+         <li>
             <MdSentimentDissatisfied size={23} />
             <span>I don't Know</span>
-         </nav>
+         </li>
 
          <hr />
 
-         <nav>
+         <li>
             <MdExitToApp size={23} />
             <span>Log Out</span>
-         </nav>
+         </li>
 
          <hr />
-      </div>
+      </nav>
    )
 }
 

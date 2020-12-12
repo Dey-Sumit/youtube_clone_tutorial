@@ -12,8 +12,7 @@
    position: sticky;
    top: 0;
 
-   background-color: $background;
-   color: $primary-color;
+   background-color: $black-primary;
 
    height: 10vh;
    width: 100%;
@@ -37,8 +36,7 @@
       margin: 0 1rem;
       border-radius: 3px;
       border: 1.2px solid;
-      color: $primary-color;
-      background-color: #121417;
+      background-color: $black-secondary;
 
       input {
          width: 100%;
@@ -46,7 +44,7 @@
          font-weight: 500;
          background: transparent;
          padding: 0.3rem;
-         color: $primary-color;
+         color: $text-color;
 
          &:focus {
             outline: none;
@@ -54,10 +52,9 @@
       }
       button {
          padding: 0 1.25rem;
-
+         color: $text-color;
          border: none;
          background: transparent;
-         color: $primary-color;
          cursor: pointer;
          &:focus {
             outline: none;

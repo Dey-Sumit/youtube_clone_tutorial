@@ -1,8 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap");
 
-$primary-color: #b1bde4;
-$background: #16181b;
-$borderColor: #4c4c4c;
+$text-color: #b1bde4;
+$black-primary: #16181b;
+$black-secondary: #121417;
+$border-color: #4c4c4c;
 
 $breakpoint-medium: 1224px;
 $breakpoint-small: 520px;
@@ -18,9 +19,9 @@ p {
 }
 
 body {
-   background: $background;
+   background: $black-primary;
    background-attachment: fixed;
-   color: $primary-color;
+   color: $text-color;
    letter-spacing: 0.1px;
 }
 ::-webkit-scrollbar {
