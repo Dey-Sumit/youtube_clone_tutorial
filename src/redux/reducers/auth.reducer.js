@@ -7,8 +7,8 @@ import {
 } from '../actionTypes'
 
 const initialState = {
-   accessToken: localStorage.getItem('ytc-access-token')
-      ? localStorage.getItem('ytc-access-token')
+   accessToken: sessionStorage.getItem('ytc-access-token')
+      ? sessionStorage.getItem('ytc-access-token')
       : null,
 
    //    accessToken: null,

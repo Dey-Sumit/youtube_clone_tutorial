@@ -6,10 +6,10 @@ import { Container } from 'react-bootstrap'
 import './_app.scss'
 import HomeScreen from './screen/HomeScreen'
 import SearchResultsScreen from './screen/SearchResultScreen'
-import { load_user } from './redux/actions/auth.action'
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
 import LoginScreen from './screen/loginScreen/LoginScreen'
 import { useDispatch, useSelector } from 'react-redux'
+import store from './redux/store'
 
 const Layout = ({ children }) => {
    const [sidebar, toggleSidebar] = useState(false)
