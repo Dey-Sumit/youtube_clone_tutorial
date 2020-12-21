@@ -40,6 +40,7 @@ HOME VIDEOS : axios,infinite scroll,moment,numeral
 10.   fire dispatch in home screen
 11.   log data in redux store chrome extension
 12.   render videos
+*** popular video does not return channel icon; make separate request to get the channel details
 
       --- Implement pagination
 

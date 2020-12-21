@@ -2,6 +2,7 @@ import {
    HOME_VIDEOS_FAILED,
    HOME_VIDEOS_REQUEST,
    HOME_VIDEOS_SUCCESS,
+   SET_ACTIVE_CATEGORY,
 } from '../actionTypes'
 
 // const initialState = {
@@ -17,6 +18,7 @@ export const homeVideosReducer = (
       videos: [],
       loading: false,
       nextPageToken: null,
+      activeCategory: 'All',
    },
    action
 ) => {
@@ -31,7 +33,7 @@ export const homeVideosReducer = (
       case HOME_VIDEOS_SUCCESS:
          return {
             ...state,
-            videos: [...state.videos, ...payload.videos],
+            videos: payload.videos,
 
             // videos:
             //    payload.category === state.previousCategory
@@ -39,6 +41,7 @@ export const homeVideosReducer = (
             //       : payload.videos,
             nextPageToken: payload.nextPageToken,
             loading: false,
+            activeCategory: payload.category,
          }
 
       case HOME_VIDEOS_FAILED:
@@ -47,14 +50,6 @@ export const homeVideosReducer = (
             errors: payload,
             loading: false,
          }
-
-      //   case SET_ACTIVE_CATEGORY: {
-      //      return {
-      //         ...state,
-      //         previousCategory: state.activeCategory,
-      //         activeCategory: payload,
-      //      }
-      //   }
 
       default:
          return state

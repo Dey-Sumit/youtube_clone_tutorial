@@ -5,7 +5,7 @@ import {
    HOME_VIDEOS_SUCCESS,
 } from '../actionTypes'
 
-export const getHomeVideos = () => async (dispatch, getState) => {
+export const getPopularVideos = () => async (dispatch, getState) => {
    dispatch({
       type: HOME_VIDEOS_REQUEST,
    })
@@ -14,7 +14,7 @@ export const getHomeVideos = () => async (dispatch, getState) => {
          params: {
             part: 'snippet,contentDetails,statistics',
             chart: 'mostPopular',
-            // regionCode: 'IN',
+            regionCode: 'IN',
             maxResults: 16,
             pageToken: getState().homeVideos.nextPageToken,
          },
@@ -25,7 +25,7 @@ export const getHomeVideos = () => async (dispatch, getState) => {
          payload: {
             videos: data.items,
             nextPageToken: data.nextPageToken,
-            // category: 'All',
+            category: 'All',
          },
       })
    } catch (error) {
@@ -37,35 +37,35 @@ export const getHomeVideos = () => async (dispatch, getState) => {
    }
 }
 
-//   export const fetchCategoriesVideos = (q) => async (dispatch, getState) => {
-//     try {
-//       dispatch({
-//         type: HOME_VIDEOS_REQUEST,
-//       });
-//       const { data } = await request("/search", {
-//         params: {
-//           part: "snippet",
-//           q,
-//           type: "video",
-//           maxResults: 16,
-//           pageToken: getState().homeVideos.nextPageToken,
-//         },
-//         headers: { Authorization: `Bearer ${getState()?.auth.accessToken}` },
-//       });
+export const getVideosByCategory = q => async (dispatch, getState) => {
+   try {
+      dispatch({
+         type: HOME_VIDEOS_REQUEST,
+      })
+      const { data } = await request('/search', {
+         params: {
+            part: 'snippet',
+            q,
+            type: 'video',
+            maxResults: 16,
+            pageToken: getState().homeVideos.nextPageToken,
+         },
+         headers: { Authorization: `Bearer ${getState()?.auth.accessToken}` },
+      })
 
-//       dispatch({
-//         type: HOME_VIDEOS_SUCCESS,
-//         payload: {
-//           videos: data.items,
-//           nextPageToken: data.nextPageToken,
-//           category: q,
-//         },
-//       });
-//     } catch (error) {
-//       console.log(error);
-//       dispatch({
-//         type: HOME_VIDEOS_FAILED,
-//         payload: error.message,
-//       });
-//     }
-//   };
+      dispatch({
+         type: HOME_VIDEOS_SUCCESS,
+         payload: {
+            videos: data.items,
+            nextPageToken: data.nextPageToken,
+            category: q,
+         },
+      })
+   } catch (error) {
+      console.log(error)
+      dispatch({
+         type: HOME_VIDEOS_FAILED,
+         payload: error.message,
+      })
+   }
+}
