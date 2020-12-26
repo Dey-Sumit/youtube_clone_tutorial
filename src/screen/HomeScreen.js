@@ -1,14 +1,23 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import Skeleton from 'react-loading-skeleton'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import CategoriesBar from '../components/categoriesBar/CategoriesBar'
+import SkeletonVideo from '../components/skelton/SkeletonVideo'
+import SkeletonWrapper from '../components/skelton/SkeletonWrapper'
 import Video from '../components/video/Video'
-import { getPopularVideos } from '../redux/actions/videos.action'
+import {
+   getPopularVideos,
+   getVideosByCategory,
+} from '../redux/actions/videos.action'
 
 const HomeScreen = () => {
    const { accessToken } = useSelector(state => state.auth)
-   const { videos } = useSelector(state => state.homeVideos)
+   const { videos, activeCategory, loading } = useSelector(
+      state => state.homeVideos
+   )
 
    const dispatch = useDispatch()
 
@@ -18,36 +27,50 @@ const HomeScreen = () => {
    useEffect(() => {
       if (accessToken) dispatch(getPopularVideos())
    }, [history, dispatch, accessToken])
+   // const [items, setItems] = useState([...Array(30)])
 
-   // const nextPage = () => {
-   //    console.log('next fired')
-   //    if (activeCategory === 'All') {
-   //       dispatch(getPopularVideos())
-   //    } else {
-   //       dispatch({
-   //          type: SET_ACTIVE_CATEGORY,
-   //          payload: activeCategory,
-   //       })
-   //       dispatch(getVideosByCategory(activeCategory))
-   //    }
+   // const fetchData = () => {
+   //    setTimeout(() => {
+   //       setItems([...items, ...Array(20)])
+   //    }, 2000)
    // }
+
+   const nextPage = () => {
+      if (activeCategory === 'All') {
+         dispatch(getPopularVideos())
+      } else {
+         dispatch(getVideosByCategory(activeCategory))
+      }
+   }
 
    return (
       <Container>
          <CategoriesBar />
-         <Row>
-            {videos
-               ? videos?.map(video => (
-                    <Col md={4} lg={3} key={video?.id?.videoId || video?.id}>
+         <InfiniteScroll
+            dataLength={videos.length} //This is important field to render the next data
+            next={nextPage}
+            hasMore={true}
+            loader={
+               <div className='spinner-border text-danger d-block mx-auto' />
+            }
+            className='row'
+            endMessage={
+               <p style={{ textAlign: 'center' }}>
+                  <b>Yay! You have seen it all</b>
+               </p>
+            }>
+            {!loading
+               ? videos.map(video => (
+                    <Col md={4} lg={3}>
                        <Video video={video} />
                     </Col>
                  ))
-               : [...Array(16)].map((_, i) => (
+               : [...Array(20)].map((_, i) => (
                     <Col md={4} lg={3} key={i}>
-                       LOL
+                       <SkeletonVideo />
                     </Col>
                  ))}
-         </Row>
+         </InfiniteScroll>
       </Container>
    )
 }

@@ -40,9 +40,9 @@ HOME VIDEOS : axios,infinite scroll,moment,numeral
 10.   fire dispatch in home screen
 11.   log data in redux store chrome extension
 12.   render videos
-*** popular video does not return channel icon; make separate request to get the channel details
+      \*\*\* popular video does not return channel icon; make separate request to get the channel details
 
-      --- Implement pagination
+            --- Implement pagination
 
 13.   install infinite scroll
 14.   next page function
@@ -63,13 +63,50 @@ CATEGORIES & Skeleton
 8. implement & BOOM !!!
    ------END--------
 
-SEARCH----
+# changes in scrollbar
 
-1. in Search Screen; create horizontal video component ; design the component :(
+1. \_app.scss
+   .app\_\_container {
+   display: flex;
+   margin-top:10vh;
+   }
+
+2. \_header.scss
+   position: fixed;
+   top: 0;
+   z-index: 999;
+3. \_sidebar.scss
+   position: sticky;
+   top: 10vh;
+   left: 0;
+
+# Add ScrollBar Component
+
+1. install & Import
+2. Docs
+3. next page
+4. Categories Bar modify
+5. Reducer Modify
+
+# Skeleton
+
+1. add skeleton
+2. add wrapper
+3. remove wrapper and add video skeleton
+
+# Lazy Load Image Component
+
+import component and import css file in index.js
+changes in span
+
+# SEARCH----
+
+4. in Search Screen; create horizontal video component ; design the component :(
    /\*\*\* for channel it should have a rounded border
    --- REDUX --
-2. action types, action creator,reducer
-3. in <Header/> :handle search & configure /search route to /search:key route
-4. in search Screen get the data through URL and dispatch action
-5. render data ; handle for channel(rounded border) and video card
+5. action types, action creator,reducer
+6. in <Header/> :handle search & configure /search route to /search:key route
+7. in search Screen get the data through URL and dispatch action
+8. render data ; handle for channel(rounded border) and video card
+
    --- END---

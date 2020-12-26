@@ -15,7 +15,7 @@ export const getPopularVideos = () => async (dispatch, getState) => {
             part: 'snippet,contentDetails,statistics',
             chart: 'mostPopular',
             regionCode: 'IN',
-            maxResults: 16,
+            maxResults: 20,
             pageToken: getState().homeVideos.nextPageToken,
          },
          headers: { Authorization: `Bearer ${getState().auth.accessToken}` },
