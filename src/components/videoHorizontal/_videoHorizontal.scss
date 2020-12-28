@@ -1,9 +1,6 @@
-@import "../../base.scss";
+@import '../../base.scss';
 
 .videoHorizontal {
-   margin: 0.5rem;
-   padding: 0.5rem 0;
-   align-items: center;
    border-bottom: 0.3px solid $border-color;
 
    cursor: pointer;
@@ -14,36 +11,31 @@
    }
 
    &__thumbnail {
-      //   &-wrapper {
-      //      width: 100%;
-      //   }
-      object-fit: contain;
       width: 100%;
 
-      &-channel {
-         border-radius: 50%;
-         width: 50%;
-         margin: 0 auto;
-         display: block;
+      &-wrapper {
+         width: 100%;
       }
+
+      // &-channel {
+      //    border-radius: 50%;
+      //    width: 50%;
+      //    margin: 0 auto;
+      //    display: block;
+      // }
    }
 
    &__duration {
       @include duration;
    }
 
-   &__right {
-      padding: 0;
-   }
-
    &__details {
-      font-size: 0.8rem;
+      font-size: 0.9rem;
    }
 
    &__title {
       font-size: 1rem;
-      font-weight: 500;
-      margin-bottom: 1px;
+
       color: #fff;
       letter-spacing: 0.1px;
 
@@ -51,22 +43,16 @@
    }
 
    &__channel {
-      display: flex;
-      margin: 0.5rem 0;
-      align-items: center;
-
       img {
          @include channel-icon;
       }
       p {
-         text-decoration: none;
-         margin-bottom: 1px;
+         font-size: 0.9rem;
          @include line-clamp(1);
       }
    }
    &__desc {
       font-size: 0.9rem;
-      margin-top: 0.3rem;
       @include line-clamp(2);
    }
 }
@@ -83,6 +69,9 @@
 
          img {
             display: none;
+         }
+         p {
+            font-size: 0.9rem;
          }
       }
 

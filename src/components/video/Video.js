@@ -8,6 +8,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 import './_video.scss'
 import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 const Video = ({ video }) => {
    const {
@@ -23,7 +24,13 @@ const Video = ({ video }) => {
    } = video
    const accessToken = useSelector(state => state.auth.accessToken)
    const [channelIcon, setChannelIcon] = useState(null)
+   const _videoId = id?.videoId || contentDetails?.videoId || id
 
+   const history = useHistory()
+
+   const handleVideoClick = () => {
+      history.push(`/watch/${_videoId}`)
+   }
    useEffect(() => {
       // get the channel thumbnail
       const get_channel_icon = async () => {
@@ -42,7 +49,7 @@ const Video = ({ video }) => {
    }, [channelId, accessToken])
 
    return (
-      <div className='video'>
+      <div className='video' onClick={handleVideoClick}>
          <div className='video__top'>
             <LazyLoadImage effect='blur' src={medium.url} />
             <span className='video__duration'>05:24</span>
