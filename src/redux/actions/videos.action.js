@@ -3,6 +3,9 @@ import {
    HOME_VIDEOS_FAILED,
    HOME_VIDEOS_REQUEST,
    HOME_VIDEOS_SUCCESS,
+   SELECTED_VIDEO_FAILED,
+   SELECTED_VIDEO_REQUEST,
+   SELECTED_VIDEO_SUCCESS,
 } from '../actionTypes'
 
 export const getPopularVideos = () => async (dispatch, getState) => {
@@ -65,6 +68,33 @@ export const getVideosByCategory = q => async (dispatch, getState) => {
       console.log(error)
       dispatch({
          type: HOME_VIDEOS_FAILED,
+         payload: error.message,
+      })
+   }
+}
+
+export const getVideoById = videoId => async dispatch => {
+   try {
+      dispatch({
+         type: SELECTED_VIDEO_REQUEST,
+      })
+
+      const { data } = await request('/videos', {
+         params: {
+            part: 'snippet,statistics',
+            id: videoId,
+         },
+         // headers: { Authorization: `Bearer ${getState()?.auth.accessToken}` },
+      })
+      dispatch({
+         type: SELECTED_VIDEO_SUCCESS,
+         payload: data.items[0],
+      })
+   } catch (error) {
+      console.log(error)
+      console.log(error.message)
+      dispatch({
+         type: SELECTED_VIDEO_FAILED,
          payload: error.message,
       })
    }

@@ -59,7 +59,7 @@ const HomeScreen = () => {
                   <b>Yay! You have seen it all</b>
                </p>
             }>
-            {loading
+            {!loading
                ? videos.map(video => (
                     <Col md={4} lg={3}>
                        <Video video={video} />
