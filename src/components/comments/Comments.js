@@ -1,31 +1,41 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+   addComment,
+   getCommentsOfVideoById,
+} from '../../redux/actions/comments.action'
 import Comment from '../comment/Comment'
-// import { useDispatch } from 'react-redux'
 import './_comments.scss'
 
-const Comments = ({ comments }) => {
-   // const dispatch = useDispatch();
+const Comments = ({ videoId, totalComments }) => {
+   const dispatch = useDispatch()
+
+   useEffect(() => {
+      dispatch(getCommentsOfVideoById(videoId))
+   }, [dispatch, videoId])
+
+   const comments = useSelector(state => state.comments.comments)
    const [input, setInput] = useState('')
 
-   //    const rawComments = comments?.map(
-   //       comment => comment.snippet.topLevelComment.snippet
-   //    )
+   const rawComments = comments?.map(
+      comment => comment.snippet.topLevelComment.snippet
+   )
    const handleComment = e => {
       e.preventDefault()
       if (input.length === 0) return
 
-      // dispatch(addComment(id, input));
+      dispatch(addComment(videoId, input))
       setInput('')
    }
 
    return (
       <div className='comments'>
-         <p>12389 Comments</p>
-         <div className='comments__input my-2 d-flex w-100'>
+         <p>{totalComments} Comments</p>
+         <div className='my-2 comments__input d-flex w-100'>
             <img
                src='https://www.pngkey.com/png/full/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png'
                alt='avatar'
-               className='rounded-circle mr-4'
+               className='mr-4 rounded-circle'
             />
             <form onSubmit={handleComment} className='d-flex flex-grow-1'>
                <input
@@ -35,15 +45,15 @@ const Comments = ({ comments }) => {
                   onChange={e => setInput(e.target.value)}
                   className='flex-grow-1'
                />
-               <button type='submit' className='border-0 p-2 '>
+               <button type='submit' className='p-2 border-0 '>
                   Comment
                </button>
             </form>
          </div>
 
          <div className='comments__list'>
-            {[...Array(10)].map((comment, i) => (
-               <Comment />
+            {rawComments?.map((comment, i) => (
+               <Comment comment={comment} key={i} />
             ))}
          </div>
       </div>

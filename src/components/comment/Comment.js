@@ -3,19 +3,26 @@ import moment from 'moment'
 
 import './_comment.scss'
 
-const Comment = () => {
+const Comment = ({
+   comment: {
+      authorDisplayName,
+      authorProfileImageUrl,
+      publishedAt,
+      textDisplay,
+   },
+}) => {
    return (
-      <div className='comment p-2 d-flex '>
+      <div className='p-2 comment d-flex '>
          <img
-            src='https://www.pngkey.com/png/full/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png'
+            src={authorProfileImageUrl}
             alt='name'
-            className='rounded-circle mr-3'
+            className='mr-3 rounded-circle'
          />
          <div className='comment__body'>
             <p className='comment__header'>
-               Sumit Dey • {moment('2020-08-06').fromNow()}
+               {authorDisplayName} • {moment(publishedAt).fromNow()}
             </p>
-            <p>Nice Video Dude!!!</p>
+            <p>{textDisplay}</p>
          </div>
       </div>
    )

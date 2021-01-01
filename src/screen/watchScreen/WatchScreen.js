@@ -43,7 +43,10 @@ const WatchScreen = () => {
             )}
 
             {/* COMMENTS */}
-            <Comments />
+            <Comments
+               videoId={id}
+               totalComments={video?.statistics?.commentCount}
+            />
          </Col>
          <Col lg={4}>
             <h6 className='my-2'>Up Next</h6>

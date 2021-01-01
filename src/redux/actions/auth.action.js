@@ -24,6 +24,7 @@ export const login = () => async dispatch => {
          name: res.additionalUserInfo.profile.name,
          photoURL: res.additionalUserInfo.profile.photoURL,
       }
+      console.log(profile)
       dispatch({
          type: LOGIN_SUCCESS,
          payload: accessToken,
