@@ -6,6 +6,9 @@ import {
    RELATED_VIDEOS_FAIL,
    RELATED_VIDEOS_REQUEST,
    RELATED_VIDEOS_SUCCESS,
+   SEARCH_VIDEOS_FAIL,
+   SEARCH_VIDEOS_REQUEST,
+   SEARCH_VIDEOS_SUCCESS,
    SELECTED_VIDEO_FAILED,
    SELECTED_VIDEO_REQUEST,
    SELECTED_VIDEO_SUCCESS,
@@ -124,6 +127,35 @@ export const getRelatedVideos = videoId => async dispatch => {
 
       dispatch({
          type: RELATED_VIDEOS_FAIL,
+         payload: error.response.data.message,
+      })
+   }
+}
+
+export const searchVideos = q => async (dispatch, getState) => {
+   try {
+      dispatch({
+         type: SEARCH_VIDEOS_REQUEST,
+      })
+
+      const { data } = await request('/search', {
+         params: {
+            part: 'snippet',
+            q,
+            type: 'channel,video',
+            maxResults: 20,
+         },
+         // headers: { Authorization: `Bearer ${getState().auth.accessToken}` },
+      })
+
+      dispatch({
+         type: SEARCH_VIDEOS_SUCCESS,
+         payload: data.items,
+      })
+   } catch (error) {
+      console.log(error.response.data.message)
+      dispatch({
+         type: SEARCH_VIDEOS_FAIL,
          payload: error.response.data.message,
       })
    }

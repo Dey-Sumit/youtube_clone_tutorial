@@ -53,7 +53,7 @@ const App = () => {
                <HomeScreen />
             </Layout>
          </Route>
-         <Route path='/search'>
+         <Route path='/search/:query'>
             <Layout>
                <SearchResultsScreen />
             </Layout>

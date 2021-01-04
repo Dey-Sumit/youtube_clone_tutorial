@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux'
 import request from '../../api'
 import './_videoHorizontal.scss'
 
-const VideoHorizontal = ({ video }) => {
+const VideoHorizontal = ({ video, searchScreen }) => {
    const {
       id,
       snippet: {
@@ -21,7 +21,6 @@ const VideoHorizontal = ({ video }) => {
          title,
          publishedAt,
          thumbnails: { medium },
-         // resourceId,
       },
    } = video
 
@@ -39,15 +38,13 @@ const VideoHorizontal = ({ video }) => {
    const [duration, setDuration] = useState(null)
    const [views, setViews] = useState(null)
 
-   const handleClick = () => {
-      // if (id.kind === 'youtube#channel' || channelScreen)
-      //    history.push(`/channel/${resourceId.channelId}`)
-      // else
-      history.push(`/watch/${id.videoId}`)
-   }
-
    const seconds = moment.duration(duration).asSeconds()
    const _duration = moment.utc(seconds * 1000).format('mm:ss')
+
+   const handleClick = () => {
+      if (id.kind === 'youtube#channel') history.push(`/channel/${channelId}`)
+      else history.push(`/watch/${id.videoId}`)
+   }
 
    useEffect(() => {
       const get_channel_thumbnail = async () => {
@@ -85,42 +82,56 @@ const VideoHorizontal = ({ video }) => {
       // }
    }, [id, accessToken])
 
+   const thumbnail =
+      id.kind === 'youtube#channel' && 'videoHorizontal__thumbnail-channel'
+
    return (
       <Row
          className='py-2 m-1 videoHorizontal align-items-center'
          onClick={handleClick}>
-         <Col xs={6} md={6} className='videoHorizontal__left'>
+         <Col
+            xs={6}
+            md={searchScreen ? 4 : 6}
+            className='videoHorizontal__left'>
             <LazyLoadImage
                effect='blur'
                src={medium.url}
-               className={`videoHorizontal__thumbnail`}
+               className={`videoHorizontal__thumbnail ${thumbnail}`}
                wrapperClassName='videoHorizontal__thumbnail-wrapper'
             />
-
-            <span className='videoHorizontal__duration'>{_duration}</span>
+            {id.kind !== 'youtube#channel' && (
+               <span className='videoHorizontal__duration'>{_duration}</span>
+            )}
          </Col>
 
-         <Col xs={6} md={6} className='p-0 videoHorizontal__right'>
+         <Col
+            xs={6}
+            md={searchScreen ? 8 : 6}
+            className='p-0 videoHorizontal__right'>
             <p className='mb-1 videoHorizontal__title'>{title}</p>
+            {id.kind !== 'youtube#channel' && (
+               <div className='videoHorizontal__details'>
+                  <AiFillEye className='mr-1' />
+                  {numeral(views).format('0.a')} Views •
+                  {moment(publishedAt).fromNow()}
+               </div>
+            )}
 
-            <div className='videoHorizontal__details'>
-               <AiFillEye className='mr-1' />
-               {numeral(views).format('0.a')} Views •{' '}
-               {moment(publishedAt).fromNow()}
-            </div>
-
-            {/* <p className='mt-1 videoHorizontal__desc'>
-               Lorem ipsum dolor sit amet consectetur adipisicing elit.
-               Accusantium, repellendus.{' '}
-            </p> */}
-            <div className='my-1 videoHorizontal__channel d-flex align-items-center'>
-               {/* <LazyLoadImage
-                  src='https://images.pexels.com/photos/3520942/pexels-photo-3520942.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                  alt=''
-                  className='videoHorizon__channel-icon'
-               /> */}
-               <p>{channelTitle}</p>
-            </div>
+            {searchScreen && (
+               <p className='mt-1 videoHorizontal__desc'>{description}</p>
+            )}
+            {id.kind !== 'youtube#channel' && (
+               <div className='my-1 videoHorizontal__channel d-flex align-items-center'>
+                  {searchScreen && (
+                     <LazyLoadImage
+                        src={channelIcon?.url}
+                        alt=''
+                        className='videoHorizon__channel-icon'
+                     />
+                  )}
+                  <p className='mb-0'>{channelTitle}</p>
+               </div>
+            )}
 
             {/* <p className="mt-2">
                   5 videos
