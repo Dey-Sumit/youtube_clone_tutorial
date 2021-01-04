@@ -47,10 +47,10 @@ const VideoMetaData = ({ video: { snippet, statistics }, videoId }) => {
    }
 
    return (
-      <div className='videoMetaData py-2'>
+      <div className='py-2 videoMetaData'>
          <div className='videoMetaData__top'>
             <h5>{title}</h5>
-            <div className='d-flex justify-content-between align-items-center py-1'>
+            <div className='py-1 d-flex justify-content-between align-items-center'>
                <span>
                   {numeral(viewCount).format('0.a')} views •{' '}
                   {moment(publishedAt).fromNow()}
@@ -67,12 +67,12 @@ const VideoMetaData = ({ video: { snippet, statistics }, videoId }) => {
                </div>
             </div>
          </div>
-         <div className='videoMetaData__channel d-flex justify-content-between align-items-center my-2 py-3'>
+         <div className='py-3 my-2 videoMetaData__channel d-flex justify-content-between align-items-center'>
             <div className='d-flex '>
                <img
                   src={channelSnippet?.thumbnails?.default?.url}
                   alt='channel icon'
-                  className='rounded-circle mr-2'
+                  className='mr-2 rounded-circle'
                />
                <div className='d-flex flex-column'>
                   <span>{channelTitle}</span>
@@ -83,7 +83,12 @@ const VideoMetaData = ({ video: { snippet, statistics }, videoId }) => {
                </div>
             </div>
 
-            <button className='btn border-0 p-2 m-2'>Subscribe</button>
+            <button
+               className={`btn border-0 p-2 m-2 ${
+                  subscriptionStatus && 'button-gray'
+               }`}>
+               {subscriptionStatus ? 'Subscribed' : 'Subscribe'}
+            </button>
          </div>
          <div className='videoMetaData__description'>
             <ShowMoreText

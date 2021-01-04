@@ -3,6 +3,9 @@ import {
    HOME_VIDEOS_FAILED,
    HOME_VIDEOS_REQUEST,
    HOME_VIDEOS_SUCCESS,
+   RELATED_VIDEOS_FAIL,
+   RELATED_VIDEOS_REQUEST,
+   RELATED_VIDEOS_SUCCESS,
    SELECTED_VIDEO_FAILED,
    SELECTED_VIDEO_REQUEST,
    SELECTED_VIDEO_SUCCESS,
@@ -84,7 +87,6 @@ export const getVideoById = videoId => async dispatch => {
             part: 'snippet,statistics',
             id: videoId,
          },
-         // headers: { Authorization: `Bearer ${getState()?.auth.accessToken}` },
       })
       dispatch({
          type: SELECTED_VIDEO_SUCCESS,
@@ -96,6 +98,33 @@ export const getVideoById = videoId => async dispatch => {
       dispatch({
          type: SELECTED_VIDEO_FAILED,
          payload: error.message,
+      })
+   }
+}
+
+export const getRelatedVideos = videoId => async dispatch => {
+   dispatch({
+      type: RELATED_VIDEOS_REQUEST,
+   })
+   try {
+      const { data } = await request('/search', {
+         params: {
+            part: 'snippet',
+            relatedToVideoId: videoId,
+            type: 'video',
+            maxResults: 15,
+         },
+      })
+      dispatch({
+         type: RELATED_VIDEOS_SUCCESS,
+         payload: data.items,
+      })
+   } catch (error) {
+      console.log(error.response.data.message)
+
+      dispatch({
+         type: RELATED_VIDEOS_FAIL,
+         payload: error.response.data.message,
       })
    }
 }

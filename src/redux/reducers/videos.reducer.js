@@ -2,6 +2,9 @@ import {
    HOME_VIDEOS_FAILED,
    HOME_VIDEOS_REQUEST,
    HOME_VIDEOS_SUCCESS,
+   RELATED_VIDEOS_FAIL,
+   RELATED_VIDEOS_REQUEST,
+   RELATED_VIDEOS_SUCCESS,
    SELECTED_VIDEO_FAILED,
    SELECTED_VIDEO_REQUEST,
    SELECTED_VIDEO_SUCCESS,
@@ -72,6 +75,39 @@ export const selectedVideoReducer = (
          }
 
       case SELECTED_VIDEO_FAILED:
+         return {
+            ...state,
+            loading: false,
+            error: payload,
+         }
+
+      default:
+         return state
+   }
+}
+
+export const relatedVideosReducer = (
+   state = { loading: true, videos: [] },
+   action
+) => {
+   const { type, payload } = action
+
+   switch (type) {
+      case RELATED_VIDEOS_REQUEST:
+         return {
+            ...state,
+            loading: true,
+         }
+
+      case RELATED_VIDEOS_SUCCESS:
+         return {
+            ...state,
+            videos: payload,
+            error: null,
+            loading: false,
+         }
+
+      case RELATED_VIDEOS_FAIL:
          return {
             ...state,
             loading: false,

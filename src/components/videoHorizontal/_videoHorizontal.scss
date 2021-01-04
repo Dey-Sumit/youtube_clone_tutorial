@@ -39,7 +39,7 @@
       color: #fff;
       letter-spacing: 0.1px;
 
-      @include line-clamp(1);
+      @include line-clamp(2);
    }
 
    &__channel {

@@ -1,52 +1,125 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { AiFillEye } from 'react-icons/ai'
-import './_videoHorizontal.scss'
 
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import numeral from 'numeral'
 import moment from 'moment'
+import { useHistory } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
-const VideoHorizontal = () => {
+import request from '../../api'
+import './_videoHorizontal.scss'
+
+const VideoHorizontal = ({ video }) => {
+   const {
+      id,
+      snippet: {
+         channelId,
+         channelTitle,
+         description,
+         title,
+         publishedAt,
+         thumbnails: { medium },
+         // resourceId,
+      },
+   } = video
+
+   const accessToken = useSelector(state => state.auth.accessToken)
+
+   // const thumbnail =
+   //    id.kind === 'youtube#channel' || channelScreen
+   //       ? 'videoHorizon__thumbnail-channel'
+   //       : 'videoHorizon__thumbnail-video'
+
+   const history = useHistory()
+
+   const [channelIcon, setChannelIcon] = useState(null)
+
+   const [duration, setDuration] = useState(null)
+   const [views, setViews] = useState(null)
+
+   const handleClick = () => {
+      // if (id.kind === 'youtube#channel' || channelScreen)
+      //    history.push(`/channel/${resourceId.channelId}`)
+      // else
+      history.push(`/watch/${id.videoId}`)
+   }
+
+   const seconds = moment.duration(duration).asSeconds()
+   const _duration = moment.utc(seconds * 1000).format('mm:ss')
+
+   useEffect(() => {
+      const get_channel_thumbnail = async () => {
+         const {
+            data: { items },
+         } = await request('/channels', {
+            params: {
+               part: 'snippet',
+               id: channelId,
+            },
+            headers: { Authorization: `Bearer ${accessToken}` },
+         })
+         setChannelIcon(items[0].snippet.thumbnails.default)
+      }
+      // if (showChannel)
+      get_channel_thumbnail()
+   }, [channelId, accessToken])
+
+   useEffect(() => {
+      const get_video_details = async () => {
+         const {
+            data: { items },
+         } = await request('/videos', {
+            params: {
+               part: 'contentDetails,statistics',
+               id: id.videoId,
+            },
+            headers: { Authorization: `Bearer ${accessToken}` },
+         })
+         setViews(items[0].statistics.viewCount)
+         setDuration(items[0].contentDetails.duration)
+      }
+      // if (!channelScreen && id.kind !== 'youtube#channel') {
+      get_video_details()
+      // }
+   }, [id, accessToken])
+
    return (
-      <Row className='videoHorizontal m-1 py-2 align-items-center'>
-         <Col xs={6} md={4} className='videoHorizontal__left'>
-            {/* <img
-               src='https://images.pexels.com/photos/3520942/pexels-photo-3520942.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-               alt='img'
-               className={`videoHorizontal__thumbnail`}
-            /> */}
+      <Row
+         className='py-2 m-1 videoHorizontal align-items-center'
+         onClick={handleClick}>
+         <Col xs={6} md={6} className='videoHorizontal__left'>
             <LazyLoadImage
                effect='blur'
-               src='https://images.pexels.com/photos/3520942/pexels-photo-3520942.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+               src={medium.url}
                className={`videoHorizontal__thumbnail`}
                wrapperClassName='videoHorizontal__thumbnail-wrapper'
             />
 
-            <span className='videoHorizontal__duration'>05:54</span>
+            <span className='videoHorizontal__duration'>{_duration}</span>
          </Col>
 
-         <Col xs={6} md={8} className='videoHorizontal__right p-0'>
-            <p className='videoHorizontal__title mb-1'>
-               Be a full stack web developer in 1 month
-            </p>
+         <Col xs={6} md={6} className='p-0 videoHorizontal__right'>
+            <p className='mb-1 videoHorizontal__title'>{title}</p>
 
             <div className='videoHorizontal__details'>
                <AiFillEye className='mr-1' />
-               {numeral(127000).format('0.a')} Views •{' '}
-               {moment('2020-06-05').fromNow()}
+               {numeral(views).format('0.a')} Views •{' '}
+               {moment(publishedAt).fromNow()}
             </div>
 
-            {/* <p className='videoHorizontal__desc mt-1'>
+            {/* <p className='mt-1 videoHorizontal__desc'>
                Lorem ipsum dolor sit amet consectetur adipisicing elit.
                Accusantium, repellendus.{' '}
             </p> */}
-            <div className='videoHorizontal__channel d-flex align-items-center my-1'>
-               {/*    <LazyLoadImage
+            <div className='my-1 videoHorizontal__channel d-flex align-items-center'>
+               {/* <LazyLoadImage
                   src='https://images.pexels.com/photos/3520942/pexels-photo-3520942.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
                   alt=''
+                  className='videoHorizon__channel-icon'
                /> */}
-               <p>Backbench Coder</p>
+               <p>{channelTitle}</p>
             </div>
 
             {/* <p className="mt-2">
