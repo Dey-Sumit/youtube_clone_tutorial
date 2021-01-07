@@ -11,6 +11,14 @@ import { useSelector } from 'react-redux'
 import request from '../../api'
 import './_videoHorizontal.scss'
 
+// notes
+//1. send channelScreen prop
+//2. handle grid && no of videos
+
+//3.  update isVIdeo : thumbnail | handleClick | views | channelDetails
+
+// 4. 2nd useEffect only if isVideo
+
 const VideoHorizontal = ({ video, searchScreen, channelScreen }) => {
    const {
       id,
