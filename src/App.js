@@ -9,8 +9,8 @@ import SearchResultsScreen from './screen/SearchResultScreen'
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
 import LoginScreen from './screen/loginScreen/LoginScreen'
 import { useDispatch, useSelector } from 'react-redux'
-import store from './redux/store'
 import WatchScreen from './screen/watchScreen/WatchScreen'
+import SubscriptionScreen from './screen/SubscriptionsScreen'
 
 const Layout = ({ children }) => {
    const [sidebar, toggleSidebar] = useState(false)
@@ -30,7 +30,6 @@ const Layout = ({ children }) => {
 }
 
 const App = () => {
-   const dispatch = useDispatch()
    const history = useHistory()
 
    const accessToken = useSelector(state => state.auth.accessToken)
@@ -61,6 +60,16 @@ const App = () => {
          <Route path='/watch/:id'>
             <Layout>
                <WatchScreen />
+            </Layout>
+         </Route>
+         <Route path='/subscriptions'>
+            <Layout>
+               <SubscriptionScreen />
+            </Layout>
+         </Route>
+         <Route path='/channel'>
+            <Layout>
+               <h4>Channel Videos</h4>
             </Layout>
          </Route>
          <Route path='/auth'>

@@ -3,6 +3,9 @@ import {
    CHANNEL_DETAILS_SUCCESS,
    CHANNEL_DETAILS_FAIL,
    CHANNEL_SUBSCRIPTION_STATUS,
+   SUBSCRIPTIONS_VIDEOS_REQUEST,
+   SUBSCRIPTIONS_VIDEOS_SUCCESS,
+   SUBSCRIPTIONS_VIDEOS_FAILED,
 } from '../actionTypes'
 
 import request from '../../api'
@@ -64,5 +67,34 @@ export const checkSubscriptionStatus = channelId => async (
       //     type: SET_VIDEOS_ERRORS,
       //     payload: error.message
       // })
+   }
+}
+export const getSubscriptionsVideos = () => async (dispatch, getState) => {
+   dispatch({
+      type: SUBSCRIPTIONS_VIDEOS_REQUEST,
+   })
+
+   try {
+      const { data } = await request('/subscriptions', {
+         params: {
+            mine: true,
+            part: 'contentDetails,snippet,subscriberSnippet',
+            maxResults: 16,
+         },
+         headers: { Authorization: `Bearer ${getState()?.auth.accessToken}` },
+      })
+      // console.log(items, nextPageToken);
+
+      dispatch({
+         type: SUBSCRIPTIONS_VIDEOS_SUCCESS,
+         payload: data.items,
+      })
+   } catch (error) {
+      console.log(error)
+      console.log(error.message)
+      dispatch({
+         type: SUBSCRIPTIONS_VIDEOS_FAILED,
+         payload: error.message,
+      })
    }
 }

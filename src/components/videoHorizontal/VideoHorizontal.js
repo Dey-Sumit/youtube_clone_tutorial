@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux'
 import request from '../../api'
 import './_videoHorizontal.scss'
 
-const VideoHorizontal = ({ video, searchScreen }) => {
+const VideoHorizontal = ({ video, searchScreen, channelScreen }) => {
    const {
       id,
       snippet: {
@@ -21,6 +21,7 @@ const VideoHorizontal = ({ video, searchScreen }) => {
          title,
          publishedAt,
          thumbnails: { medium },
+         resourceId,
       },
    } = video
 
@@ -41,11 +42,18 @@ const VideoHorizontal = ({ video, searchScreen }) => {
    const seconds = moment.duration(duration).asSeconds()
    const _duration = moment.utc(seconds * 1000).format('mm:ss')
 
+   // ?snippet change
+   const _channelId = resourceId?.channelId || channelId
+
+   //? CHANGE
+   const isVideo = !(id.kind === 'youtube#channel' || channelScreen)
+
    const handleClick = () => {
-      if (id.kind === 'youtube#channel') history.push(`/channel/${channelId}`)
+      if (!isVideo) history.push(`/channel/${_channelId}`)
       else history.push(`/watch/${id.videoId}`)
    }
 
+   // console.log(isVideo)
    useEffect(() => {
       const get_channel_thumbnail = async () => {
          const {
@@ -55,7 +63,6 @@ const VideoHorizontal = ({ video, searchScreen }) => {
                part: 'snippet',
                id: channelId,
             },
-            headers: { Authorization: `Bearer ${accessToken}` },
          })
          setChannelIcon(items[0].snippet.thumbnails.default)
       }
@@ -72,18 +79,18 @@ const VideoHorizontal = ({ video, searchScreen }) => {
                part: 'contentDetails,statistics',
                id: id.videoId,
             },
-            headers: { Authorization: `Bearer ${accessToken}` },
          })
          setViews(items[0].statistics.viewCount)
          setDuration(items[0].contentDetails.duration)
       }
-      // if (!channelScreen && id.kind !== 'youtube#channel') {
-      get_video_details()
-      // }
-   }, [id, accessToken])
+      // ? change
+      if (isVideo) {
+         get_video_details()
+      }
+   }, [id, accessToken, isVideo])
 
-   const thumbnail =
-      id.kind === 'youtube#channel' && 'videoHorizontal__thumbnail-channel'
+   //? CHANGE
+   const thumbnail = !isVideo && 'videoHorizontal__thumbnail-channel'
 
    return (
       <Row
@@ -91,7 +98,7 @@ const VideoHorizontal = ({ video, searchScreen }) => {
          onClick={handleClick}>
          <Col
             xs={6}
-            md={searchScreen ? 4 : 6}
+            md={searchScreen || channelScreen ? 4 : 6}
             className='videoHorizontal__left'>
             <LazyLoadImage
                effect='blur'
@@ -99,28 +106,29 @@ const VideoHorizontal = ({ video, searchScreen }) => {
                className={`videoHorizontal__thumbnail ${thumbnail}`}
                wrapperClassName='videoHorizontal__thumbnail-wrapper'
             />
-            {id.kind !== 'youtube#channel' && (
+            {isVideo && (
                <span className='videoHorizontal__duration'>{_duration}</span>
             )}
          </Col>
 
          <Col
             xs={6}
-            md={searchScreen ? 8 : 6}
+            md={searchScreen || channelScreen ? 8 : 6}
             className='p-0 videoHorizontal__right'>
             <p className='mb-1 videoHorizontal__title'>{title}</p>
-            {id.kind !== 'youtube#channel' && (
+            {isVideo && (
                <div className='videoHorizontal__details'>
                   <AiFillEye className='mr-1' />
-                  {numeral(views).format('0.a')} Views •
+                  {numeral(views).format('0.a')} Views •{' '}
                   {moment(publishedAt).fromNow()}
                </div>
             )}
-
-            {searchScreen && (
+            {/* ? CHANGE don't want to show in watch screen(related videos) in*/}
+            {(searchScreen || channelScreen) && (
                <p className='mt-1 videoHorizontal__desc'>{description}</p>
             )}
-            {id.kind !== 'youtube#channel' && (
+
+            {isVideo && (
                <div className='my-1 videoHorizontal__channel d-flex align-items-center'>
                   {searchScreen && (
                      <LazyLoadImage
@@ -132,10 +140,15 @@ const VideoHorizontal = ({ video, searchScreen }) => {
                   <p className='mb-0'>{channelTitle}</p>
                </div>
             )}
-
             {/* <p className="mt-2">
                   5 videos
                </p> */}
+            {/* //?change */}
+            {channelScreen && (
+               <p className='mt-2'>
+                  {video.contentDetails.totalItemCount} videos
+               </p>
+            )}
          </Col>
       </Row>
    )

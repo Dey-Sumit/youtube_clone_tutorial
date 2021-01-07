@@ -12,6 +12,7 @@ import {
 } from 'react-icons/md'
 import { useDispatch } from 'react-redux'
 import { logout } from '../../redux/actions/auth.action'
+import { Link } from 'react-router-dom'
 
 const Sidebar = ({ sidebar, closeSidebar }) => {
    const dispatch = useDispatch()
@@ -24,25 +25,26 @@ const Sidebar = ({ sidebar, closeSidebar }) => {
       <nav
          className={sidebar ? 'sidebar open' : 'sidebar'}
          onClick={() => closeSidebar(false)}>
-         <li>
-            <MdHome size={23} />
-            <span>Home</span>
-         </li>
+         <Link to='/'>
+            <li>
+               <MdHome size={23} />
+               <span>Home</span>
+            </li>
+         </Link>
 
-         <li>
-            <MdSubscriptions size={23} />
-            <span>Subscriptions</span>
-         </li>
+         <Link to='/subscriptions'>
+            <li>
+               <MdSubscriptions size={23} />
+               <span>Subscriptions</span>
+            </li>
+         </Link>
 
-         <li>
-            <MdThumbUp size={23} />
-            <span>Home</span>
-         </li>
-
-         <li>
-            <MdHistory size={23} />
-            <span>History</span>
-         </li>
+         <Link to='/'>
+            <li>
+               <MdHistory size={23} />
+               <span>History</span>
+            </li>
+         </Link>
          <li>
             <MdLibraryBooks size={23} />
             <span>Library</span>

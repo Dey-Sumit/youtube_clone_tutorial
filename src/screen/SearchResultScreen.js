@@ -22,7 +22,7 @@ const SearchResultsScreen = () => {
    return (
       <Container>
          {!loading ? (
-            videos.map(video => (
+            videos?.map(video => (
                <VideoHorizontal
                   video={video}
                   searchScreen
