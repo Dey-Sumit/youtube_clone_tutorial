@@ -10,7 +10,7 @@ import './_video.scss'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
-const Video = ({ video }) => {
+const Video = ({ video, channelScreen }) => {
    const {
       id,
       snippet: {
@@ -62,11 +62,13 @@ const Video = ({ video }) => {
 
             <span className='px-2'> {moment(publishedAt).fromNow()}</span>
          </div>
-         <div className='video__channel'>
-            <LazyLoadImage effect='blur' src={channelIcon?.url} />
+         {!channelScreen && (
+            <div className='video__channel'>
+               <LazyLoadImage effect='blur' src={channelIcon?.url} />
 
-            <p>{channelTitle}</p>
-         </div>
+               <p>{channelTitle}</p>
+            </div>
+         )}
       </div>
    )
 }

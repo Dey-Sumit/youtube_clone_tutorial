@@ -11,6 +11,7 @@ import LoginScreen from './screen/loginScreen/LoginScreen'
 import { useDispatch, useSelector } from 'react-redux'
 import WatchScreen from './screen/watchScreen/WatchScreen'
 import SubscriptionScreen from './screen/SubscriptionsScreen'
+import ChannelScreen from './screen/channelScreen/ChannelScreen'
 
 const Layout = ({ children }) => {
    const [sidebar, toggleSidebar] = useState(false)
@@ -67,9 +68,9 @@ const App = () => {
                <SubscriptionScreen />
             </Layout>
          </Route>
-         <Route path='/channel'>
+         <Route path='/channel/:channelId'>
             <Layout>
-               <h4>Channel Videos</h4>
+               <ChannelScreen />
             </Layout>
          </Route>
          <Route path='/auth'>

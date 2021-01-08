@@ -1,5 +1,8 @@
 import request from '../../api'
 import {
+   CHANNEL_VIDEOS_FAIL,
+   CHANNEL_VIDEOS_REQUEST,
+   CHANNEL_VIDEOS_SUCCESS,
    HOME_VIDEOS_FAILED,
    HOME_VIDEOS_REQUEST,
    HOME_VIDEOS_SUCCESS,
@@ -158,5 +161,47 @@ export const searchVideos = q => async (dispatch, getState) => {
          type: SEARCH_VIDEOS_FAIL,
          payload: error.response.data.message,
       })
+   }
+}
+
+export const getVideoByChannel = id => async (dispatch, getState) => {
+   dispatch({
+      type: CHANNEL_VIDEOS_REQUEST,
+   })
+
+   console.log({ id })
+   try {
+      const {
+         data: { items },
+      } = await request('/channels', {
+         params: {
+            part: 'contentDetails',
+            id: id,
+            maxResults: 5,
+         },
+         //  headers: { Authorization: `Bearer ${getState()?.auth.accessToken}` },
+      })
+
+      const uploadsPlaylistId = items[0].contentDetails.relatedPlaylists.uploads
+
+      // console.log(uploadsPlaylistId);
+
+      const { data } = await request('/playlistItems', {
+         params: {
+            part: 'snippet,contentDetails',
+            playlistId: uploadsPlaylistId,
+            maxResults: 30,
+         },
+      })
+
+      dispatch({
+         type: CHANNEL_VIDEOS_SUCCESS,
+         payload: data.items,
+      })
+   } catch (error) {
+      dispatch({
+         type: CHANNEL_VIDEOS_FAIL,
+      })
+      console.log(error)
    }
 }
