@@ -3,7 +3,11 @@ name: Firebase Deploy
 on:
   push:
     branches: 
+<<<<<<< HEAD
     - master
+=======
+    - main
+>>>>>>> channel_videos
 
 jobs:
   deploy:

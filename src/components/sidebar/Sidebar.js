@@ -1,5 +1,5 @@
-import React from "react"
-import "./_sidebar.scss"
+import React from 'react'
+import './_sidebar.scss'
 
 import {
    MdSubscriptions,
@@ -9,50 +9,60 @@ import {
    MdLibraryBooks,
    MdHome,
    MdSentimentDissatisfied,
-} from "react-icons/md"
+} from 'react-icons/md'
+import { useDispatch } from 'react-redux'
+import { logout } from '../../redux/actions/auth.action'
+import { Link } from 'react-router-dom'
 
 const Sidebar = ({ sidebar, closeSidebar }) => {
+   const dispatch = useDispatch()
+
+   const handleLogOut = () => {
+      dispatch(logout())
+   }
+
    return (
-      <div
-         className={sidebar ? "sidebar open" : "sidebar"}
+      <nav
+         className={sidebar ? 'sidebar open' : 'sidebar'}
          onClick={() => closeSidebar(false)}>
-         <nav>
-            <MdHome size={23} />
-            <span>Home</span>
-         </nav>
+         <Link to='/'>
+            <li>
+               <MdHome size={23} />
+               <span>Home</span>
+            </li>
+         </Link>
 
-         <nav>
-            <MdSubscriptions size={23} />
-            <span>Subscriptions</span>
-         </nav>
+         <Link to='/subscriptions'>
+            <li>
+               <MdSubscriptions size={23} />
+               <span>Subscriptions</span>
+            </li>
+         </Link>
 
-         <nav>
-            <MdThumbUp size={23} />
-            <span>Home</span>
-         </nav>
-
-         <nav>
-            <MdHistory size={23} />
-            <span>History</span>
-         </nav>
-         <nav>
+         <Link to='/'>
+            <li>
+               <MdHistory size={23} />
+               <span>History</span>
+            </li>
+         </Link>
+         <li>
             <MdLibraryBooks size={23} />
             <span>Library</span>
-         </nav>
-         <nav>
+         </li>
+         <li>
             <MdSentimentDissatisfied size={23} />
             <span>I don't Know</span>
-         </nav>
+         </li>
 
          <hr />
 
-         <nav>
+         <li onClick={handleLogOut}>
             <MdExitToApp size={23} />
             <span>Log Out</span>
-         </nav>
+         </li>
 
          <hr />
-      </div>
+      </nav>
    )
 }
 

@@ -1,35 +1,74 @@
-import React from "react"
-import { AiFillEye } from "react-icons/ai"
-import "./_video.scss"
+import React, { useEffect, useState } from 'react'
+import { AiFillEye } from 'react-icons/ai'
+import numeral from 'numeral'
+import moment from 'moment'
+import request from '../../api'
 
-const Video = () => {
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+
+import './_video.scss'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+
+const Video = ({ video, channelScreen }) => {
+   const {
+      id,
+      snippet: {
+         channelId,
+         channelTitle,
+         title,
+         publishedAt,
+         thumbnails: { medium },
+      },
+      contentDetails,
+   } = video
+   const accessToken = useSelector(state => state.auth.accessToken)
+   const [channelIcon, setChannelIcon] = useState(null)
+   const _videoId = id?.videoId || contentDetails?.videoId || id
+
+   const history = useHistory()
+
+   const handleVideoClick = () => {
+      history.push(`/watch/${_videoId}`)
+   }
+   useEffect(() => {
+      // get the channel thumbnail
+      const get_channel_icon = async () => {
+         const {
+            data: { items },
+         } = await request('/channels', {
+            params: {
+               part: 'snippet',
+               id: channelId,
+            },
+            headers: { Authorization: `Bearer ${accessToken}` },
+         })
+         setChannelIcon(items[0].snippet.thumbnails.default)
+      }
+      get_channel_icon()
+   }, [channelId, accessToken])
+
    return (
-      <div className="video">
-         <div className="video__top">
-            <img
-               src="https://images.pexels.com/photos/3520942/pexels-photo-3520942.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-               alt="img"
-               className="fluid"
-            />
-            <span className="video__duration">05:24</span>
+      <div className='video' onClick={handleVideoClick}>
+         <div className='video__top'>
+            <LazyLoadImage effect='blur' src={medium.url} />
+            <span className='video__duration'>05:24</span>
          </div>
-         <p className="video__title">
-            Master Java in 3 minutes,no joking;seriously{" "}
-         </p>
-         <div className="video__details">
+         <p className='video__title'>{title}</p>
+         <div className='video__details'>
             <span>
-               <AiFillEye /> 5m Views •{" "}
+               <AiFillEye /> {numeral(127000).format('0.a')} Views •{' '}
             </span>
 
-            <span className="px-2"> a day ago</span>
+            <span className='px-2'> {moment(publishedAt).fromNow()}</span>
          </div>
-         <div className="video__channel">
-            <img
-               src="https://www.pngkey.com/png/full/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png"
-               alt="channel Icons"
-            />
-            <p>Backbench Coder</p>
-         </div>
+         {!channelScreen && (
+            <div className='video__channel'>
+               <LazyLoadImage effect='blur' src={channelIcon?.url} />
+
+               <p>{channelTitle}</p>
+            </div>
+         )}
       </div>
    )
 }

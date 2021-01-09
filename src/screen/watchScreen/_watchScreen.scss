@@ -1,0 +1,12 @@
+@import '../../_base.scss';
+.watchScreen__player {
+   height: 60vh;
+   background-color: #353946;
+   width: 100%;
+   margin-bottom: 2rem;
+}
+@media (max-width: 720px) {
+   .watchScreen__player {
+      height: 35vh;
+   }
+}

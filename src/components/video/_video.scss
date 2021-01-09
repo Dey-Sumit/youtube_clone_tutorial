@@ -1,4 +1,4 @@
-@import "../../base.scss";
+@import '../../base.scss';
 
 .video {
    margin-bottom: 1rem;
@@ -12,6 +12,9 @@
    &__top {
       position: relative;
       margin-bottom: 0.5rem;
+      .lazy-load-image-background {
+         width: 100%;
+      }
 
       img {
          width: 100%;

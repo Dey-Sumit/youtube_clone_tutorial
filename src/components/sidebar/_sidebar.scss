@@ -1,17 +1,19 @@
-@import "../../_base.scss";
+@import '../../_base.scss';
 
 .sidebar {
-   background: #121417;
+   background: $black-secondary;
 
    display: flex;
    flex-direction: column;
 
    width: 250px;
+   height: 90vh;
    padding-top: 2rem;
 
-   // position: sticky;
-   // top: 10vh;
-   // left: 0;
+   //add
+   position: sticky;
+   top: 10vh;
+   left: 0;
 
    transition: all 0.2s ease-out;
 
@@ -19,10 +21,9 @@
       transform: translateX(0);
    }
 
-   nav {
+   li {
       display: flex;
       align-items: center;
-      color: $primary-color;
 
       padding: 0.6rem 1.5rem;
       margin: 0.2rem 0;
@@ -36,19 +37,19 @@
       }
 
       &:hover {
-         background-color: $borderColor;
+         background-color: $border-color;
       }
    }
 }
 
 hr {
-   background-color: $borderColor;
+   background-color: $border-color;
 }
 
 @media (max-width: $breakpoint-medium) {
    .sidebar {
       width: 90px;
-      nav {
+      li {
          justify-content: center;
       }
       span {

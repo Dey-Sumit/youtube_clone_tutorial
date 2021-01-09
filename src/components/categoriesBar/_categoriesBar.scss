@@ -18,11 +18,11 @@
       padding: 0.5rem;
 
       white-space: nowrap;
-      border: 1.5px solid $primary-color;
+      border: 1.5px solid $text-color;
       border-radius: 999px;
 
       background: transparent;
-      color: $primary-color;
+      color: $text-color;
 
       font-weight: 500;
 
@@ -39,7 +39,7 @@
       &.active {
          background-color: #606060;
          color: #fff;
-         border-color: $borderColor;
+         border-color: $border-color;
       }
    }
 }

@@ -1,0 +1,13 @@
+.comment {
+   font-size: 0.9rem;
+   border-bottom: 0.1px solid #4c4c4c;
+
+   img {
+      width: 40px;
+      height: 40px;
+   }
+
+   &__header {
+      color: #fff;
+   }
+}
