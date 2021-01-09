@@ -184,7 +184,7 @@ export const getVideoByChannel = id => async (dispatch, getState) => {
 
       const uploadsPlaylistId = items[0].contentDetails.relatedPlaylists.uploads
 
-      // console.log(uploadsPlaylistId);
+      console.log(uploadsPlaylistId);
 
       const { data } = await request('/playlistItems', {
          params: {
