@@ -4,6 +4,7 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import Comments from '../../components/comments/Comments'
+import HelmetCustom from '../../components/HelmetCustom'
 import VideoHorizontal from '../../components/videoHorizontal/VideoHorizontal'
 import VideoMetaData from '../../components/VideoMetaData/VideoMetaData'
 import {

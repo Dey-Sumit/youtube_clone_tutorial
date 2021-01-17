@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
+import { Helmet } from 'react-helmet'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import Skeleton from 'react-loading-skeleton'
+// import Skeleton from 'react-loading-skeleton'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import CategoriesBar from '../components/categoriesBar/CategoriesBar'
+import HelmetCustom from '../components/HelmetCustom'
 import SkeletonVideo from '../components/skelton/SkeletonVideo'
-import SkeletonWrapper from '../components/skelton/SkeletonWrapper'
+// import SkeletonWrapper from '../components/skelton/SkeletonWrapper'
 import Video from '../components/video/Video'
 import {
    getPopularVideos,
@@ -45,13 +47,15 @@ const HomeScreen = () => {
 
    return (
       <Container>
+         <HelmetCustom />
+
          <CategoriesBar />
          <InfiniteScroll
             dataLength={videos.length} //This is important field to render the next data
             next={nextPage}
             hasMore={true}
             loader={
-               <div className='spinner-border text-danger d-block mx-auto' />
+               <div className='mx-auto spinner-border text-danger d-block' />
             }
             className='row'
             endMessage={
